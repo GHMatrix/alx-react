@@ -2,7 +2,7 @@
   "name": "task_1",
   "version": "1.0.0",
   "description": "This is a readme file for Task 1.",
-  "main": "webpack.config.js",
+  "main": "index.js",
   "dependencies": {
     "jquery": "^3.7.1",
     "lodash": "^4.17.21",
