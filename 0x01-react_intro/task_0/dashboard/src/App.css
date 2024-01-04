@@ -1,0 +1,22 @@
+.App{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.App-header{
+  display: flex;
+  align-items: center;
+  border-bottom: 2px red solid;
+}
+.App-header h1{
+  color: red;
+}
+.App-body{
+  display: flex;
+  flex: 1 1 auto;
+  margin: 3rem;
+}
+.App-footer{
+  border-top: 2px red solid;
+  text-align: center;
+}
