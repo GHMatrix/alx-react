@@ -1,4 +1,4 @@
-import logo from '../src/Holberton Logo.jpg';
+import logo from '../src/holberton-logo.jpg';
 import './App.css';
 
 function App() {
