@@ -1,0 +1,14 @@
+.Notifications {
+    border: 1px dashed red;
+    padding: 10px;
+    margin: 10px;
+}
+.Notifications ul li:first-child{
+    color: blue
+}
+.Notifications ul :nth-child(2){
+    color: red;
+}
+.Notifications ul :nth-child(3){
+    color: red;
+}
