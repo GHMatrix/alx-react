@@ -1,26 +1,27 @@
 import PropTypes from 'prop-types';
+import CourseShape from './CourseShape';
 
-function CourseListRow({ isHeader = false, textFirstCell, textSecondCell = null }) {
+function CourseListRow({ isHeader = false, course }) {
     if (isHeader) {
-        if (textSecondCell === null) {
+        if (!course.credit) {
             return (
                 <tr>
-                    <th colSpan="2">{textFirstCell}</th>
+                    <th colSpan="2">{course.name}</th>
                 </tr>
             );
         } else {
             return (
                 <tr>
-                    <th>{textFirstCell}</th>
-                    <th>{textSecondCell}</th>
+                    <th>{course.name}</th>
+                    <th>{course.credit}</th>
                 </tr>
             );
         }
     } else {
         return (
             <tr>
-                <td>{textFirstCell}</td>
-                <td>{textSecondCell}</td>
+                <td>{course.name}</td>
+                <td>{course.credit}</td>
             </tr>
         );
     }
@@ -28,8 +29,11 @@ function CourseListRow({ isHeader = false, textFirstCell, textSecondCell = null 
 
 CourseListRow.propTypes = {
     isHeader: PropTypes.bool,
-    textFirstCell: PropTypes.string.isRequired,
-    textSecondCell: PropTypes.string,
+    course: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        credit: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    }).isRequired,
 };
 
 export default CourseListRow;
