@@ -6,19 +6,28 @@ import Footer from '../Footer/Footer';
 import Notifications from '../Notifcations/Notifications';
 
 function App() {
+  // Define the listNotifications array
+  const listNotifications = [
+    { id: 1, type: 'default', value: 'New course available' },
+    { id: 2, type: 'default', value: 'New resume available' },
+    { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
+  ];
+
   return (
     <div className="App">
-      <Notifications/>
-      <Header/>
+      {/* Pass the listNotifications array as a prop to Notifications */}
+      <Notifications listNotifications={listNotifications} />
+      <Header />
       <main className="App-body">
         <p>
           Login to access the full dashboard
         </p>
-        <Login/>  
+        <Login />
       </main>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
 
 export default App;
+
