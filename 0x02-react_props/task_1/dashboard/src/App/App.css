@@ -1,0 +1,14 @@
+.App{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 10px;
+}
+
+
+.App-body{
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin: 3rem;
+}

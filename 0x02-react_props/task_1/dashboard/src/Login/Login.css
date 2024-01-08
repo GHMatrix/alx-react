@@ -1,0 +1,11 @@
+i.App-body form{
+    display: flex;
+    column-gap: 20px;
+  }
+  @media screen and (max-width: 800px) {
+    .App-body form{
+      flex-direction: column;
+      gap: .6rem;
+    }
+    
+  }
