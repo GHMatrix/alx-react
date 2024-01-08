@@ -1,0 +1,6 @@
+{
+  "homepage": "http://GHMatrix.github.io/alx-react",
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
+}
