@@ -1,0 +1,19 @@
+table {
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 1.2rem;
+    margin-top: 3rem;
+  }
+  
+  th {
+    border-bottom: 1px solid #eee;
+  }
+  
+  th,
+  td {
+    width: 80%;
+  }
+  
+  tr:nth-child(2) {
+    text-align: left;
+  }
