@@ -9,6 +9,14 @@ import Footer from "../Footer/Footer";
 import Notifications from "../Notifications/Notifications";
 import CourseList from "../CourseList/CourseList";
 import { shallow, mount } from "enzyme";
+import { StyleSheetTestUtils } from "aphrodite";
+
+beforeEach(() => {
+  StyleSheetTestUtils.suppressStyleInjection();
+});
+afterEach(() => {
+  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
 
 describe("App tests", () => {
   it("renders without crashing", () => {
@@ -62,7 +70,7 @@ describe("When ctrl + h is pressed", () => {
     wrapper.unmount();
   });
 
-  document.alert = jest.fn();
+  window.alert = jest.fn();
   it("checks that alert function is called", () => {
     const wrapper = mount(<App />);
     const spy = jest.spyOn(window, "alert");
@@ -84,5 +92,5 @@ describe("When ctrl + h is pressed", () => {
     jest.restoreAllMocks();
     wrapper.unmount();
   });
-  document.alert.mockClear();
+  window.alert.mockClear();
 });
