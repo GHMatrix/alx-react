@@ -1,18 +1,23 @@
+import { shallow } from "enzyme";
 import React from "react";
 import Login from "./Login";
-import { render, screen } from '@testing-library/react';
+import { StyleSheetTestUtils } from "aphrodite";
 
-describe("Login", () => {
+beforeEach(() => {
+  StyleSheetTestUtils.suppressStyleInjection();
+});
+afterEach(() => {
+  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+describe("Header", () => {
   it("should render without crashing", () => {
-    render(<Login />);
-    expect(screen.getByRole('form')).toBeInTheDocument();
+    const wrapper = shallow(<Login />);
+    expect(wrapper.exists()).toEqual(true);
   });
-
   it("should have 2 input tags and 2 label tags", () => {
-    render(<Login />);
-    const emailInput = screen.getByLabelText('Email:');
-    const passwordInput = screen.getByLabelText('Password:');
-    expect(emailInput).toBeInTheDocument();
-    expect(passwordInput).toBeInTheDocument();
+    const wrapper = shallow(<Login />);
+    expect(wrapper.find("label")).toHaveLength(2);
+    expect(wrapper.find("input")).toHaveLength(2);
   });
 });
