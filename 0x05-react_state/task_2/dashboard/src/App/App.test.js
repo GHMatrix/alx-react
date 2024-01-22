@@ -4,8 +4,7 @@ import Login from "../Login/Login";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Notifications from "../Notifications/Notifications";
-import CourseList from "../CourseList/CourseList";
-import { shallow, mount } from "enzyme";
+import { shallow } from "enzyme";
 import { StyleSheetTestUtils } from "aphrodite";
 
 beforeEach(() => {
@@ -57,5 +56,25 @@ describe("App tests", () => {
     component.instance().handleDisplayDrawer();
     component.instance().handleHideDrawer();
     expect(component.state("displayDrawer")).toBe(false);
+  });
+
+  it("logIn function updates state correctly", () => {
+    const component = shallow(<App />);
+    const email = "test@example.com";
+    const password = "testPassword";
+    component.instance().logIn(email, password);
+    expect(component.state("user")).toEqual({
+      isLoggedIn: true,
+      email: "test@example.com",
+    });
+  });
+
+  it("logOut function updates state correctly", () => {
+    const component = shallow(<App />);
+    component.instance().logOut();
+    expect(component.state("user")).toEqual({
+      isLoggedIn: false,
+      email: "",
+    });
   });
 });
