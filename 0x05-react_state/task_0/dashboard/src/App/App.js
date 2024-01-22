@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -35,20 +35,9 @@ const styles = StyleSheet.create({
     borderTop: "1px solid #ddd",
     padding: "10px 0",
   },
-  drawer: {
-    display: "flex",
-    flexDirection: "column",
-    position: "absolute",
-    right: 0,
-    top: 0,
-    height: "100vh",
-    backgroundColor: "rgba(255, 255, 255, 0.95)",
-    borderLeft: "1px solid #ddd",
-    padding: "20px",
-  },
 });
 
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -56,9 +45,9 @@ class App extends Component {
       displayDrawer: false,
     };
 
-    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
     this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   listCourses = [
@@ -80,20 +69,20 @@ class App extends Component {
     }
   }
 
-  handleDisplayDrawer() {
-    this.setState({ displayDrawer: true });
-  }
-
-  handleHideDrawer() {
-    this.setState({ displayDrawer: false });
-  }
-
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress);
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress);
+  }
+
+  handleDisplayDrawer() {
+    this.setState({ displayDrawer: true });
+  }
+
+  handleHideDrawer() {
+    this.setState({ displayDrawer: false });
   }
 
   render() {
@@ -107,7 +96,7 @@ class App extends Component {
               handleDisplayDrawer={this.handleDisplayDrawer}
               handleHideDrawer={this.handleHideDrawer}
             />
-            <Header showDrawer={this.handleDisplayDrawer} />
+            <Header />
           </div>
           {this.props.isLoggedIn ? (
             <BodySectionWithMarginBottom title="Course list" styles={styles.bodySection}>
@@ -118,14 +107,6 @@ class App extends Component {
               <Login />
             </BodySectionWithMarginBottom>
           )}
-
-          {this.state.displayDrawer && (
-            <div className={css(styles.drawer)}>
-              <p>Drawer Content Goes Here</p>
-              <button onClick={this.handleHideDrawer}>Close Drawer</button>
-            </div>
-          )}
-
           <BodySection title="News from the School" styles={styles.bodySection}>
             <p>Some random text for the news section.</p>
           </BodySection>
@@ -138,7 +119,9 @@ class App extends Component {
 
 App.defaultProps = {
   isLoggedIn: false,
-  logOut: () => {},
+  logOut: () => {
+    return;
+  },
 };
 
 App.propTypes = {
@@ -147,4 +130,3 @@ App.propTypes = {
 };
 
 export default App;
-
