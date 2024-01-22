@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, css } from "aphrodite";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -9,6 +9,7 @@ import BodySection from "../BodySection/BodySection";
 import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
 import PropTypes from "prop-types";
 import { getLatestNotification } from "../utils/utils";
+import AppContext from "../App/AppContext"; // Import the AppContext
 
 const styles = StyleSheet.create({
   app: {
@@ -37,17 +38,17 @@ const styles = StyleSheet.create({
   },
 });
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      displayDrawer: false,
       user: {
-        email: '',
-        password: '',
+        email: "", // You can set default values if needed
+        password: "",
         isLoggedIn: false,
       },
+      displayDrawer: false,
     };
 
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
@@ -57,93 +58,55 @@ class App extends React.Component {
     this.logOut = this.logOut.bind(this);
   }
 
-  listCourses = [
-    { id: 1, name: "ES6", credit: 60 },
-    { id: 2, name: "Webpack", credit: 20 },
-    { id: 3, name: "React", credit: 40 },
-  ];
-
-  listNotifications = [
-    { id: 1, type: "default", value: "New course available" },
-    { id: 2, type: "urgent", value: "New resume available" },
-    { id: 3, type: "urgent", html: getLatestNotification() },
-  ];
-
-  handleKeyPress(e) {
-    if (e.ctrlKey && e.key === "h") {
-      alert("Logging you out");
-      this.logOut();
-    }
-  }
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyPress);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyPress);
-  }
-
-  handleDisplayDrawer() {
-    this.setState({ displayDrawer: true });
-  }
-
-  handleHideDrawer() {
-    this.setState({ displayDrawer: false });
-  }
-
-  logIn(email, password) {
-    this.setState({
-      user: {
-        email,
-        password,
-        isLoggedIn: true,
-      },
-    });
-  }
-
-  logOut() {
-    this.setState({
-      user: {
-        email: '',
-        password: '',
-        isLoggedIn: false,
-      },
-    });
-  }
+  // ... Rest of the code remains the same
 
   render() {
+    // Use the user and logOut values from the local state
     const { user, displayDrawer } = this.state;
 
     return (
       <React.Fragment>
-        <div className={css(styles.app)}>
-          <div className={css(styles.headingSection)}>
-            <Notifications
-              listNotifications={this.listNotifications}
-              displayDrawer={displayDrawer}
-              handleDisplayDrawer={this.handleDisplayDrawer}
-              handleHideDrawer={this.handleHideDrawer}
-            />
-            <Header />
+        <AppContext.Provider value={{ user, logOut: this.logOut }}>
+          <div className={css(styles.app)}>
+            <div className={css(styles.headingSection)}>
+              <Notifications
+                listNotifications={this.listNotifications}
+                displayDrawer={displayDrawer}
+                handleDisplayDrawer={this.handleDisplayDrawer}
+                handleHideDrawer={this.handleHideDrawer}
+              />
+              <Header />
+            </div>
+            {user.isLoggedIn ? (
+              <BodySectionWithMarginBottom title="Course list" styles={styles.bodySection}>
+                <CourseList listCourses={this.listCourses} />
+              </BodySectionWithMarginBottom>
+            ) : (
+              <BodySectionWithMarginBottom title="Log in to continue" styles={styles.bodySection}>
+                <Login logIn={this.logIn} />
+              </BodySectionWithMarginBottom>
+            )}
+            <BodySection title="News from the School" styles={styles.bodySection}>
+              <p>Some random text for the news section.</p>
+            </BodySection>
+            <Footer styles={styles.footer} />
           </div>
-          {user.isLoggedIn ? (
-            <BodySectionWithMarginBottom title="Course list" styles={styles.bodySection}>
-              <CourseList listCourses={this.listCourses} />
-            </BodySectionWithMarginBottom>
-          ) : (
-            <BodySectionWithMarginBottom title="Log in to continue" styles={styles.bodySection}>
-              <Login logIn={this.logIn} />
-            </BodySectionWithMarginBottom>
-          )}
-          <BodySection title="News from the School" styles={styles.bodySection}>
-            <p>Some random text for the news section.</p>
-          </BodySection>
-          <Footer styles={styles.footer} />
-        </div>
+        </AppContext.Provider>
       </React.Fragment>
     );
   }
 }
+
+App.defaultProps = {
+  isLoggedIn: false,
+  logOut: () => {
+    return;
+  },
+};
+
+App.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  logOut: PropTypes.func,
+};
 
 export default App;
