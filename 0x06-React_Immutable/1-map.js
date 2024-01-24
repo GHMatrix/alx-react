@@ -1,12 +1,5 @@
-const { Map } = require('immutable');
+import { Map } from 'immutable';
 
-/**
- * Converts a plain JavaScript object to an Immutable Map using Map from Immutable.js.
- * @param {Object} object - The input object to convert.
- * @returns {Map} - An Immutable Map representation of the input object.
- */
-function getImmutableObject(object) {
-  return Map(object);
-}
+const getImmutableObject = (object) => new Map(object);
 
-module.exports = { getImmutableObject };
+export default getImmutableObject;
