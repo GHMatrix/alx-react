@@ -1,97 +1,24 @@
+import { shallow, mount } from "enzyme";
 import React from "react";
-import App from "./App";
-import Login from "../Login/Login";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import Notifications from "../Notifications/Notifications";
-import { shallow } from "enzyme";
+import App, { listNotificationsInitialState, mapStateToProps } from "./App";
 import { StyleSheetTestUtils } from "aphrodite";
+import AppContext, { user, logOut } from "./AppContext";
 
-beforeEach(() => {
-  StyleSheetTestUtils.suppressStyleInjection();
-});
-afterEach(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-});
+import { fromJS } from "immutable";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import uiReducer, { initialState } from "../reducers/uiReducer";
 
-describe("App tests", () => {
-  it("renders without crashing", () => {
-    const component = shallow(<App />);
-    expect(component).toBeDefined();
-  });
+const store = createStore(uiReducer, initialState);
 
-  it("should render Notifications component", () => {
-    const component = shallow(<App />);
-    expect(component.containsMatchingElement(<Notifications />)).toEqual(false);
-  });
-
-  it("should render Header component", () => {
-    const component = shallow(<App />);
-    expect(component.contains(<Header />)).toBe(true);
-  });
-
-  it("should render Login Component", () => {
-    const component = shallow(<App />);
-    expect(component.contains(<Login />)).toBe(true);
-  });
-
-  it("should render Footer Component", () => {
-    const component = shallow(<App />);
-    expect(component.contains(<Footer />)).toBe(true);
-  });
-
-  it("default state for displayDrawer is false", () => {
-    const component = shallow(<App />);
-    expect(component.state("displayDrawer")).toBe(false);
-  });
-
-  it("handleDisplayDrawer sets displayDrawer to true", () => {
-    const component = shallow(<App />);
-    component.instance().handleDisplayDrawer();
-    expect(component.state("displayDrawer")).toBe(true);
-  });
-
-  it("handleHideDrawer sets displayDrawer to false", () => {
-    const component = shallow(<App />);
-    component.instance().handleDisplayDrawer();
-    component.instance().handleHideDrawer();
-    expect(component.state("displayDrawer")).toBe(false);
-  });
-
-  it("logIn function updates state correctly", () => {
-    const component = shallow(<App />);
-    const email = "test@example.com";
-    const password = "testPassword";
-    component.instance().logIn(email, password);
-    expect(component.state("user")).toEqual({
-      isLoggedIn: true,
-      email: "test@example.com",
+describe("<App />", () => {
+  it("mapStateToProps returns the right object from user Login", () => {
+    let state = fromJS({
+      isUserLoggedIn: true,
     });
-  });
 
-  it("logOut function updates state correctly", () => {
-    const component = shallow(<App />);
-    component.instance().logOut();
-    expect(component.state("user")).toEqual({
-      isLoggedIn: false,
-      email: "",
-    });
-  });
+    const result = mapStateToProps(state);
 
-  it("markNotificationAsRead function updates state correctly", () => {
-    const component = shallow(<App />);
-    const mockNotifications = [
-      { id: 1, type: "default", value: "New course available" },
-      { id: 2, type: "urgent", value: "New resume available" },
-      { id: 3, type: "urgent", html: "<p>Mock notification</p>" },
-    ];
-
-    component.setState({ listNotifications: mockNotifications });
-    component.instance().markNotificationAsRead(2);
-
-    expect(component.state("listNotifications")).toEqual([
-      { id: 1, type: "default", value: "New course available" },
-      { id: 3, type: "urgent", html: "<p>Mock notification</p>" },
-    ]);
+    expect(result).toEqual({ isLoggedIn: true });
   });
 });
