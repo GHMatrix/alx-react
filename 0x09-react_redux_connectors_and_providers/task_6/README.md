@@ -1,5 +1,6 @@
 22. Selectors
 
+
 To improve performance in your connector, you should always use selectors when you can. Let’s modify the Notifications connector to reuse the selector we built in the previous project:
 
 Update Notifications.js to use getUnreadNotifications
